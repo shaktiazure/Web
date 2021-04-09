@@ -1,0 +1,14 @@
+Add-WindowsFeature Web-Server -IncludeManagementTools
+Add-Content -Path "C:\inetpub\wwwroot\Default.htm" -Value "NTMS web server --> $($env:computername)"
+New-NetFirewallRule -DisplayName "NTMS Allow inbound ICMPv4" -Protocol ICMPv4 
+New-Item -ItemType directory -Path "C:\inetpub\wwwroot\images"
+New-Item -ItemType directory -Path "C:\inetpub\wwwroot\video"
+$imagevalue = "Images: " + $($env:computername)
+Add-Content -Path "C:\inetpub\wwwroot\images\test.htm" -Value $imagevalue
+$videovalue = "Video: " + $($env:computername)
+Add-Content -Path "C:\inetpub\wwwroot\video\test.htm" -Value $videovalue
+
+$url = "https://csged50dd698631x4a14xa7d.blob.core.windows.net/images/BMW.jpg"
+Invoke-WebRequest $url -OutFile C:\inetpub\wwwroot\images\image.jpg
+$url = "https://csged50dd698631x4a14xa7d.blob.core.windows.net/video/video.mp4"
+Invoke-WebRequest $url -OutFile C:\inetpub\wwwroot\video\video.mp4
